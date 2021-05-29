@@ -1,0 +1,52 @@
+{{- range $prom := .Values.prometheus }}
+{{- if $prom.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    prometheus: {{ $prom.name }}
+  name: prometheus-{{ $prom.name }}
+  {{- if ($prom.namespace) }}
+  namespace: {{ $prom.namespace }}
+  {{- end }}
+spec:
+  ports:
+  - name: web
+    port: 9090
+    protocol: TCP
+    targetPort: web
+  selector:
+    app: prometheus
+    prometheus: {{ $prom.name }}
+  sessionAffinity: ClientIP
+  type: ClusterIP
+{{- if $prom.loadBalancer }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/load-balancer-type: Internal
+  labels:
+    prometheus: {{ $prom.name }}
+  name: prometheus-{{ $prom.name }}-ext
+  {{- if ($prom.namespace) }}
+  namespace: {{ $prom.namespace }}
+  {{- end }}  
+spec:
+  externalTrafficPolicy: Cluster
+  loadBalancerIP: {{ $prom.loadBalancer.ip }}
+  ports:
+  - name: http
+    port: {{ $prom.loadBalancer.port }}
+    protocol: TCP
+    targetPort: web
+  selector:
+    app: prometheus
+    prometheus: {{ $prom.name }}
+  sessionAffinity: None
+  type: LoadBalancer
+{{- end }}
+{{- end }}
+{{- end }}

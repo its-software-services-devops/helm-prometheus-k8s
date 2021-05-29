@@ -1,0 +1,50 @@
+{{- range $prom := .Values.prometheus }}
+{{- if $prom.enabled }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  labels:
+    prometheus: {{ $prom.name }}
+  name: {{ $prom.name }}
+  {{- if ($prom.namespace) }}
+  namespace: {{ $prom.namespace }}
+  {{- end }}
+spec:
+  alerting:
+    alertmanagers:
+    {{- toYaml $prom.alertmanagers | nindent 4 }}
+  baseImage: quay.io/prometheus/prometheus
+  nodeSelector:
+    kubernetes.io/os: linux
+  podMonitorNamespaceSelector: {}
+  podMonitorSelector: {}
+  replicas: {{ $prom.replica }}
+  resources:    
+    requests:
+      memory: 400Mi
+  retention: {{ $prom.retention.retentionDay }}
+  retentionSize: {{ $prom.retention.retentionSize }}
+  ruleSelector:
+    {{- toYaml $prom.ruleSelector | nindent 4 }}
+  securityContext:
+    fsGroup: 2000
+    runAsNonRoot: true
+    runAsUser: 1000
+  serviceAccountName: prometheus-k8s #use the predefined one
+  serviceMonitorNamespaceSelector: {}
+  serviceMonitorSelector: {}
+  storage:
+    volumeClaimTemplate:
+      metadata:
+        name: {{ $prom.name }}-storage
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ $prom.storage }}
+        volumeMode: Filesystem
+  version: v2.11.0
+{{- end }}
+{{- end }}

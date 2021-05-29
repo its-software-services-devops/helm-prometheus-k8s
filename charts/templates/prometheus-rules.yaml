@@ -1,0 +1,19 @@
+{{- $files := .Files }}
+{{- range $key, $rule := .Values.alertRules }}
+{{- if $rule.enabled }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:  
+  labels:
+    {{- toYaml $rule.labels | nindent 4 }}
+  name: {{ $rule.name }}
+spec:
+  groups:
+{{- $cfgFile := $rule.configFile }}
+{{- range tuple $cfgFile }}
+{{ $files.Get . | indent 4 }}
+{{- end }}
+
+{{- end }}
+{{- end }}
