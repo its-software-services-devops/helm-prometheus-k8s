@@ -1,0 +1,25 @@
+{{- range $prom := .Values.alertmanager }}
+{{- if $prom.enabled }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Alertmanager
+metadata:
+  labels:
+    alertmanager: {{ $prom.name }}
+  name: {{ $prom.name }}
+  {{- if ($prom.namespace) }}
+  namespace: {{ $prom.namespace }}
+  {{- end }}
+spec:
+  baseImage: quay.io/prometheus/alertmanager
+  nodeSelector:
+    kubernetes.io/os: linux
+  replicas: {{ $prom.replica }}
+  securityContext:
+    fsGroup: 2000
+    runAsNonRoot: true
+    runAsUser: 1000
+  serviceAccountName: alertmanager-main #use the predefined one
+  version: v0.18.0
+{{- end }}
+{{- end }}

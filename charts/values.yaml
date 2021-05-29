@@ -1,0 +1,27 @@
+alertmanager:
+  default:
+    name: 'main'
+    enabled: false
+    createSecret: false
+    replica: 3
+    config:
+      scheme:
+        name: 'nothing-scheme-config'
+      alertNoti: {}
+
+  generic:
+    name: 'main' #Use pre-defined one
+    enabled: false
+    createSecret: false
+    replica: 3
+    config:
+      scheme:
+        name: 'generic-scheme-config'
+      alertNoti:
+        slackUrl: 'https://xxxxxx/B01EZSWKFME/B4iKV0EZUz2gxPunLkXEqIZp'
+        channel: '#xxxxx'
+        discardRules: []
+
+prometheus: {}
+
+alertRules: {}

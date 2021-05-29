@@ -1,0 +1,17 @@
+alertmanager:
+  generic:
+    namespace: monitoring
+    enabled: true
+    createSecret: true
+    config:
+      alertNoti:
+        slackUrl: 'https://xxxxxx/B01EZSWKFME/B4iKV0EZUz2gxPunLkXEqIZp'
+        channel: '#xxxxx'    
+        discardRules:
+          - alertname: 'K8SXXXXName'
+            namespace: 'default'
+          - namespace: 'abcdefg'
+
+prometheus: {}
+
+alertRules: {}
