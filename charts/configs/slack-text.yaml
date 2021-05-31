@@ -1,6 +1,8 @@
 {{ range .Alerts -}}
 *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
-*Description:* {{ .Annotations.message }}
+{{ if .Annotations.description }}*Description:* {{ .Annotations.description }}{{ end }}
+{{ if .Annotations.message }}*Message:* {{ .Annotations.message }}{{ end }}
+{{ if .Annotations.summary }}*Summary:* {{ .Annotations.summary }}{{ end }}
 *Runbook URL:* {{ .Annotations.runbook_url }}
 *Details:*
   {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
