@@ -2,6 +2,14 @@ apiVersion: v1
 entries:
   helm-prometheus-k8s:
   - apiVersion: v2
+    created: "2021-05-31T00:05:18.242957623Z"
+    description: A Helm chart for Prometheus stack
+    digest: 4eba2fa077f841b441f71c01bca7a5cebe5d7957a8ea61c6c09df041b195bf4f
+    name: helm-prometheus-k8s
+    urls:
+    - https://its-software-services-devops.github.io/helm-prometheus-k8s/helm-prometheus-k8s-1.2.1.tgz
+    version: 1.2.1
+  - apiVersion: v2
     created: "2021-05-29T12:19:14.958918112Z"
     description: A Helm chart for Prometheus stack
     digest: 500da68594265c7cd52048dcc7d2edb8001cc5971c8669f4f0f9b2df6c7832ca
@@ -9,4 +17,4 @@ entries:
     urls:
     - https://its-software-services-devops.github.io/helm-prometheus-k8s/helm-prometheus-k8s-1.2.0.tgz
     version: 1.2.0
-generated: "2021-05-29T12:19:14.958238506Z"
+generated: "2021-05-31T00:05:18.24247182Z"
